@@ -69,13 +69,25 @@ def read_and_average(ain, times, wait):
         time.sleep(wait)
     return asum / times
 
+
+def read_humidity(times=100, wait=0.01):
+    asum = 0
+    for _ in range(times):
+        asum += clue.humidity
+        time.sleep(wait)
+    return asum / times
+
+
+
 time.sleep(5)
 
 while True:
     # take 100 readings and average them
-    aval = read_and_average(analog, 100, 0.01)
+    # aval = read_and_average(analog, 100, 0.01)
+    aval = read_humidity(100, 0.01)
     # calculate a percentage (aval ranges from 0 to 65535)
-    aperc = aval / 65535 * 100
+    # aperc = aval / 65535 * 100
+    aperc = aval 
     # display the percentage
     soil_label.text = "Soil: {} %".format(int(aperc))
     print((aval, aperc))
@@ -86,7 +98,7 @@ while True:
         motor.value = True
         motor_label.text = "Motor ON"
         motor_label.color = 0x00FF00
-        buzzer.duty_cycle = 2**15
+        # buzzer.duty_cycle = 2**15
         time.sleep(0.5)
 
     # always turn off quickly
